@@ -108,6 +108,61 @@
       position: relative;
     }
 
+    /* Tab Styles */
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: var(--glass);
+      color: var(--text);
+      border: 2px solid var(--stroke);
+      padding: 12px 32px;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      font-family: "Baloo 2", cursive;
+      letter-spacing: 0.02em;
+    }
+    .tab-btn:hover {
+      background: var(--glass-hover);
+      transform: translateY(-2px);
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 6px 16px rgba(255, 122, 168, 0.3);
+    }
+    .tab-content {
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Map Specific Styles */
+    .map-container {
+      width: 100%;
+      height: 75vh;
+      border: 2px solid var(--stroke);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--item-bg);
+    }
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
     .card {
       backdrop-filter: blur(18px) saturate(155%);
       -webkit-backdrop-filter: blur(18px) saturate(155%);
@@ -311,6 +366,19 @@
     .grid-two {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .two-col-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .col-stack {
+      display: grid;
       gap: 20px;
     }
 
@@ -516,7 +584,7 @@
     }
 
     @media (max-width: 900px) {
-      .hero, .grid-two { grid-template-columns: 1fr; }
+      .hero, .grid-two, .two-col-layout { grid-template-columns: 1fr; }
       .banner-media { height: 160px; }
       .hero { justify-items: center; text-align: center; }
       .actions-row { justify-content: center; }
@@ -577,97 +645,123 @@
       </div>
     </header>
 
-    <section class="grid-two">
-      <article class="card">
-        <div class="card-head">
-          <h2>Daily Tasks</h2>
-          <div class="actions">
-            <button id="resetDailyBtn">Reset Daily</button>
+    <!-- NEW TAB NAVIGATION -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-target="tab-tracker">📝 Tracker</button>
+      <button class="tab-btn" data-target="tab-map">🗺️ Map & Resources</button>
+    </nav>
+
+    <!-- TAB 1: DAILY TRACKER -->
+    <div id="tab-tracker" class="tab-content active" style="display: grid; gap: 20px;">
+      <section class="grid-two">
+        <article class="card">
+          <h2>Manual Events 📅</h2>
+          <div class="stack-form">
+            <input id="eventTitle" type="text" placeholder="Event name" />
+            <label>Start <input id="eventStart" type="datetime-local" /></label>
+            <label>End <input id="eventEnd" type="datetime-local" /></label>
+            <button id="addEventBtn">Add Event</button>
           </div>
-        </div>
-        <ul id="dailyList" class="checklist"></ul>
-        <div class="inline-form">
-          <input id="newDailyTask" type="text" placeholder="Add custom daily task..." />
-          <button id="addDailyTaskBtn">Add</button>
-        </div>
-      </article>
+          <ul id="eventsList" class="simple-list"></ul>
+        </article>
 
-      <article class="card">
-        <div class="card-head">
-          <h2>Weekly Tasks</h2>
-          <div class="actions">
-            <button id="resetWeeklyBtn">Reset Weekly</button>
+        <article class="card">
+          <h2>Weather Schedule ⛅</h2>
+          <div class="stack-form">
+            <select id="weatherType">
+              <option value="Sunny">☀️ Sunny</option>
+              <option value="Rainy">🌧️ Rainy</option>
+              <option value="Snowy">❄️ Snowy</option>
+              <option value="Rainbow">🌈 Rainbow</option>
+              <option value="Aurora">🌌 Aurora</option>
+            </select>
+            <label>Happening on <input id="weatherTime" type="datetime-local" /></label>
+            <button id="addWeatherBtn">Add Weather</button>
           </div>
-        </div>
-        <p class="sub" style="margin-top:-10px; margin-bottom:10px;">Resets every Saturday</p>
-        <ul id="weeklyList" class="checklist"></ul>
-      </article>
-    </section>
+          <ul id="weatherList" class="simple-list"></ul>
+        </article>
+      </section>
 
-    <section class="grid-two">
-      <article class="card">
-        <h2>Custom Tasks</h2>
-        <p class="sub">One-off tasks that don't reset automatically.</p>
-        <div class="inline-form">
-          <input id="newCustomTask" type="text" placeholder="Add custom task..." />
-          <button id="addCustomTaskBtn">Add</button>
-        </div>
-        <ul id="customList" class="checklist"></ul>
-      </article>
+      <section class="two-col-layout">
+        <div class="col-stack">
+          <article class="card">
+            <div class="card-head">
+              <h2>Daily Tasks</h2>
+              <div class="actions">
+                <button id="resetDailyBtn">Reset Daily</button>
+              </div>
+            </div>
+            <ul id="dailyList" class="checklist"></ul>
+            <div class="inline-form">
+              <input id="newDailyTask" type="text" placeholder="Add custom daily task..." />
+              <button id="addDailyTaskBtn">Add</button>
+            </div>
+          </article>
 
-      <article class="card">
-        <h2>Resource Timers</h2>
-        <div class="timer-block">
-          <h3>Rare Timber 🪵 (2 Hours)</h3>
-          <p id="timberCountdown" class="timer">--:--:--</p>
-          <button id="timberCollectedBtn">Just Collected!</button>
+          <article class="card">
+            <h2>Custom Tasks</h2>
+            <p class="sub">One-off tasks that don't reset automatically.</p>
+            <div class="inline-form">
+              <input id="newCustomTask" type="text" placeholder="Add custom task..." />
+              <button id="addCustomTaskBtn">Add</button>
+            </div>
+            <ul id="customList" class="checklist"></ul>
+          </article>
         </div>
-        <div class="timer-block">
-          <h3>Truffle 🍄 (15 Minutes)</h3>
-          <p id="truffleCountdown" class="timer">--:--:--</p>
-          <button id="truffleCollectedBtn">Just Collected!</button>
+
+        <div class="col-stack">
+          <article class="card">
+            <div class="card-head">
+              <h2>Weekly Tasks</h2>
+              <div class="actions">
+                <button id="resetWeeklyBtn">Reset Weekly</button>
+              </div>
+            </div>
+            <p class="sub" style="margin-top:-10px; margin-bottom:10px;">Resets every Saturday</p>
+            <ul id="weeklyList" class="checklist"></ul>
+          </article>
+
+          <article class="card">
+            <h2>Resource Timers</h2>
+            <div class="timer-block">
+              <h3>Rare Timber 🪵 (2 Hours)</h3>
+              <p id="timberCountdown" class="timer">--:--:--</p>
+              <button id="timberCollectedBtn">Just Collected!</button>
+            </div>
+            <div class="timer-block">
+              <h3>Truffle 🍄 (15 Minutes)</h3>
+              <p id="truffleCountdown" class="timer">--:--:--</p>
+              <button id="truffleCollectedBtn">Just Collected!</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <h2>Crops Planted Timers 🌱</h2>
+            <div class="preset-wrap" id="cropPresetWrap"></div>
+            <div class="inline-form">
+              <input id="customCropLabel" type="text" placeholder="Crop name (optional)..." />
+              <input id="customCropMins" type="number" min="1" placeholder="Mins" style="max-width: 100px;" />
+              <button id="startCustomCropBtn">Start Timer</button>
+            </div>
+            <ul id="cropTimersList" class="timer-list"></ul>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <!-- TAB 2: INTERACTIVE MAP & RESOURCES -->
+    <div id="tab-map" class="tab-content" style="display: none;">
+      <article class="card" style="padding: 16px;">
+        <div class="card-head" style="margin-bottom: 12px; border-bottom: none; padding-bottom: 0;">
+          <h2>Interactive Map & Resources 📍</h2>
+        </div>
+        <p class="sub" style="margin-bottom: 16px;">Track your collections, zoom into the map, and find resource locations all right here.</p>
+        <div class="map-container">
+          <iframe src="https://www.heartopia.live/en/world-map/" title="Heartopia Interactive Map"></iframe>
         </div>
       </article>
-    </section>
+    </div>
 
-    <section class="card">
-      <h2>Crops Planted Timers 🌱</h2>
-      <div class="preset-wrap" id="cropPresetWrap"></div>
-      <div class="inline-form">
-        <input id="customCropMins" type="number" min="1" placeholder="Or custom minutes..." />
-        <button id="startCustomCropBtn">Start Timer</button>
-      </div>
-      <ul id="cropTimersList" class="timer-list"></ul>
-    </section>
-
-    <section class="grid-two">
-      <article class="card">
-        <h2>Manual Events 📅</h2>
-        <div class="stack-form">
-          <input id="eventTitle" type="text" placeholder="Event name" />
-          <label>Start <input id="eventStart" type="datetime-local" /></label>
-          <label>End <input id="eventEnd" type="datetime-local" /></label>
-          <button id="addEventBtn">Add Event</button>
-        </div>
-        <ul id="eventsList" class="simple-list"></ul>
-      </article>
-
-      <article class="card">
-        <h2>Weather Schedule ⛅</h2>
-        <div class="stack-form">
-          <select id="weatherType">
-            <option value="Sunny">☀️ Sunny</option>
-            <option value="Rainy">🌧️ Rainy</option>
-            <option value="Snowy">❄️ Snowy</option>
-            <option value="Rainbow">🌈 Rainbow</option>
-            <option value="Aurora">🌌 Aurora</option>
-          </select>
-          <label>Happening on <input id="weatherTime" type="datetime-local" /></label>
-          <button id="addWeatherBtn">Add Weather</button>
-        </div>
-        <ul id="weatherList" class="simple-list"></ul>
-      </article>
-    </section>
   </main>
 
   <template id="checkItemTpl">
@@ -733,7 +827,7 @@
     );
 
     const WEEKLY_BASE_TASKS = [
-      "Complete Weekly Task/Events", "Buy Fertilizer & Planting Tools", "Buy Fishing Tools"
+      "Complete Weekly Task/Events", "Buy Fertilizer & Planting Tools", "Buy Fishing Tools", "Collect Pink Bubbles"
     ];
 
     const CROP_PRESETS = [15, 60, 120, 240, 480, 720, 960];
@@ -773,6 +867,7 @@
       timberCollectedBtn: document.getElementById("timberCollectedBtn"),
       truffleCollectedBtn: document.getElementById("truffleCollectedBtn"),
       cropPresetWrap: document.getElementById("cropPresetWrap"),
+      customCropLabel: document.getElementById("customCropLabel"),
       customCropMins: document.getElementById("customCropMins"),
       startCustomCropBtn: document.getElementById("startCustomCropBtn"),
       cropTimersList: document.getElementById("cropTimersList"),
@@ -827,6 +922,23 @@
     }
 
     function bind() {
+      // --- Tab Navigation Logic ---
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabContents.forEach(c => c.style.display = 'none');
+          
+          btn.classList.add('active');
+          const targetId = btn.getAttribute('data-target');
+          const target = document.getElementById(targetId);
+          // Special display condition because our tracker tab uses CSS Grid
+          target.style.display = targetId === 'tab-tracker' ? 'grid' : 'block';
+        });
+      });
+
       els.profileUpload.addEventListener("change", (e) => handleImageUpload(e, "profile", 400));
       els.bannerUpload.addEventListener("change", (e) => handleImageUpload(e, "banner", 1400));
 
@@ -1197,10 +1309,15 @@
 
     function addCropTimer(minutes) {
       const mins = Math.round(minutes);
-      const label = mins >= 60 ? `${mins / 60}h crop` : `${mins}m crop`;
+      const customName = els.customCropLabel.value.trim();
+      let label = mins >= 60 ? `${mins / 60}h` : `${mins}m`;
+      label = customName ? `${customName} (${label})` : `${label} crop`;
+      
       state.timers.cropTimers.push({
         id: uid(), label, durationMs: mins * 60 * 1000, startedAt: Date.now()
       });
+      
+      els.customCropLabel.value = ""; // Clear input after adding
       saveAndRender();
     }
 
@@ -1348,12 +1465,21 @@
 
     function mergeWithDefault(data) {
       const merged = structuredClone(defaultState);
+      
+      // Inject new built-in weekly tasks to user's saved state smoothly
+      let loadedWeekly = Array.isArray(data.weeklyTasks) && data.weeklyTasks.length ? data.weeklyTasks.map(t => ({...t, category: t.category || "Weekly Tasks"})) : merged.weeklyTasks;
+      WEEKLY_BASE_TASKS.forEach(text => {
+        if (!loadedWeekly.some(t => t.text === text)) {
+          loadedWeekly.push({ id: uid(), text, category: "Weekly Tasks", checked: false, builtIn: true });
+        }
+      });
+
       return {
         ...merged, ...data,
         profile: { ...merged.profile, ...(data.profile || {}) },
         timers: { ...merged.timers, ...(data.timers || {}), cropTimers: data.timers?.cropTimers || [] },
         dailyTasks: Array.isArray(data.dailyTasks) && data.dailyTasks.length ? normalizeDailyTasks(data.dailyTasks) : merged.dailyTasks,
-        weeklyTasks: Array.isArray(data.weeklyTasks) && data.weeklyTasks.length ? data.weeklyTasks.map(t => ({...t, category: t.category || "Weekly Tasks"})) : merged.weeklyTasks,
+        weeklyTasks: loadedWeekly,
         customTasks: Array.isArray(data.customTasks) && data.customTasks.length ? data.customTasks.map(t => ({...t, category: t.category || "Custom Tasks"})) : [],
         events: data.events || [], weather: data.weather || []
       };
