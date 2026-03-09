@@ -1,342 +1,48 @@
 :root {
   --bg1: #86d7ff;
   --bg2: #ffe8f7;
-  --glass: rgba(255, 255, 255, 0.38);
-  --glass-strong: rgba(255, 255, 255, 0.58);
-  --stroke: rgba(255, 255, 255, 0.6);
+  /* Enhanced Glassmorphism Colors */
+  --glass: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: rgba(31, 38, 135, 0.15);
   --text: #164567;
   --accent: #ff7aa8;
   --accent-2: #22bfa6;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: "Quicksand", sans-serif;
-  color: var(--text);
-  background: radial-gradient(circle at 20% 15%, #fff8c8, transparent 28%),
-    radial-gradient(circle at 82% 25%, #ffd2ec, transparent 26%),
-    linear-gradient(140deg, var(--bg1), var(--bg2));
-}
-
-.bg-hearts {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.25;
-  background-image:
-    radial-gradient(circle at 8% 12%, #ffffff 0 10px, transparent 11px),
-    radial-gradient(circle at 40% 70%, #ffffff 0 8px, transparent 9px),
-    radial-gradient(circle at 75% 32%, #ffffff 0 12px, transparent 13px),
-    radial-gradient(circle at 88% 82%, #ffffff 0 6px, transparent 7px);
-}
-
-.app {
-  width: min(1200px, 94vw);
-  margin: 16px auto 48px;
-  display: grid;
-  gap: 16px;
-}
-
 .card {
-  backdrop-filter: blur(18px) saturate(155%);
-  -webkit-backdrop-filter: blur(18px) saturate(155%);
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.24));
-  border: 1px solid rgba(255, 255, 255, 0.78);
-  border-radius: 20px;
-  padding: 16px;
-  box-shadow: 0 18px 40px rgba(10, 52, 86, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  background-color: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 var(--glass-shadow);
 }
 
-.banner-full {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  border-radius: 0;
-  border-left: none;
-  border-right: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.7);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.18));
-  padding: 0 0 10px;
-}
-
-.banner-media {
-  display: block;
-  height: 220px;
+/* Make Dropdown (details) look like part of the glass UI */
+details {
   width: 100%;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
 }
 
-.banner-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: none;
-}
-
-.banner-placeholder {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-family: "Baloo 2", cursive;
-  letter-spacing: 0.03em;
-  background: linear-gradient(135deg, rgba(255, 122, 168, 0.25), rgba(34, 191, 166, 0.25));
-}
-
-.banner-controls {
-  width: min(1200px, 94vw);
-  margin: 10px auto 0;
-}
-
-.banner-controls input[type="range"] {
-  width: 220px;
-}
-
-#bannerUpload,
-#profileUpload {
-  display: none;
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 18px;
-}
-
-.avatar {
-  width: 140px;
-  height: 140px;
-  border-radius: 18px;
-  border: 2px dashed rgba(255, 255, 255, 0.82);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--glass-strong);
-  cursor: pointer;
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: none;
-}
-
-.avatar-placeholder {
-  text-align: center;
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-h1,
-h2,
-h3 {
-  margin: 0;
-  font-family: "Baloo 2", cursive;
-  letter-spacing: 0.02em;
-}
-
-h1 {
-  font-size: 1.8rem;
-}
-
-h2 {
-  font-size: 1.35rem;
-}
-
-h3 {
-  font-size: 1.05rem;
-}
-
-.identity {
-  display: grid;
-  gap: 10px;
-}
-
-.actions-row {
-  display: flex;
-  gap: 8px;
-}
-
-label,
-.sub {
-  font-size: 0.95rem;
-}
-
-input,
-select,
-button,
-details summary {
-  font: inherit;
-  border-radius: 10px;
-  border: 1px solid rgba(22, 69, 103, 0.2);
-  padding: 8px 10px;
-}
-
-button {
-  background: linear-gradient(135deg, var(--accent), #ff96bd);
-  color: #fff;
-  border: none;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-button:hover {
-  filter: brightness(1.05);
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.grid-two {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.card-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.checklist,
-.simple-list,
-.timer-list {
+summary {
   list-style: none;
-  padding: 0;
-  margin: 12px 0 0;
-  display: grid;
-  gap: 8px;
-}
-
-.check-item,
-.simple-item,
-.timer-item {
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.46);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 12px;
-  padding: 8px 10px;
-}
-
-.section-separator {
-  margin-top: 8px;
-  padding: 4px 2px 2px;
   font-family: "Baloo 2", cursive;
-  font-size: 0.95rem;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: #0f3f63;
-  border-bottom: 1px dashed rgba(15, 63, 99, 0.35);
-}
-
-.completed-drawer {
-  margin-top: 8px;
-}
-
-.completed-drawer details {
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px dashed rgba(15, 63, 99, 0.35);
-  border-radius: 12px;
-  padding: 8px;
-}
-
-.completed-drawer summary {
-  cursor: pointer;
-  border: none;
-  padding: 0;
+  font-size: 1.2rem;
   font-weight: 700;
+  padding: 5px 0;
 }
 
-.completed-list {
-  margin-top: 8px;
-  padding-top: 2px;
+summary::after {
+  content: '▼';
+  font-size: 0.8rem;
+  transition: transform 0.3s;
 }
 
-.check-item label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+details[open] summary::after {
+  transform: rotate(180deg);
 }
-
-.row-actions {
-  display: flex;
-  gap: 6px;
-}
-
-.row-actions .danger,
-.danger {
-  background: #ea5477;
-}
-
-.secondary {
-  background: var(--accent-2);
-}
-
-.inline-form {
-  margin-top: 10px;
-  display: flex;
-  gap: 8px;
-}
-
-.inline-form input {
-  flex: 1;
-}
-
-.stack-form {
-  display: grid;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.timer-block {
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.45);
-}
-
-.timer {
-  margin: 6px 0 8px;
-  font-weight: 700;
-  font-size: 1.15rem;
-}
-
-.preset-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
-}
-
-.preset-wrap button {
-  background: linear-gradient(135deg, #56c3ff, #42d9c2);
-}
-
-@media (max-width: 900px) {
-  .hero,
-  .grid-two {
-    grid-template-columns: 1fr;
-  }
-
-  .banner-media {
-    height: 150px;
-  }
-}
-
