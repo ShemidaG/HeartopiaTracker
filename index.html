@@ -1,27 +1,160 @@
-<article class="card">
-  <details open>
-    <summary>
-      Daily Tasks
-      <div class="actions">
-        <button id="resetDailyBtn">Reset Daily</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heartopia Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-hearts"></div>
+  <main class="app">
+    <section class="banner-full card">
+      <label class="banner-media" for="bannerUpload">
+        <img id="bannerPreview" alt="Banner preview" />
+        <span id="bannerPlaceholder" class="banner-placeholder">Upload banner (PNG/JPG/WEBP/GIF)</span>
+      </label>
+      <input id="bannerUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+      <div class="banner-controls">
+        <label>
+          Banner Position
+          <input id="bannerPosition" type="range" min="0" max="100" value="50" />
+        </label>
       </div>
-    </summary>
-    <ul id="dailyList" class="checklist"></ul>
-    <div class="inline-form">
-      <input id="newDailyTask" type="text" placeholder="Add custom daily task" />
-      <button id="addDailyTaskBtn">Add</button>
-    </div>
-  </details>
-</article>
+    </section>
 
-<article class="card">
-  <details open>
-    <summary>Custom Tasks</summary>
-    <p class="sub">Custom tasks can be edited or deleted.</p>
-    <div class="inline-form">
-      <input id="newCustomTask" type="text" placeholder="Add one-off task" />
-      <button id="addCustomTaskBtn">Add</button>
-    </div>
-    <ul id="customList" class="checklist"></ul>
-  </details>
-</article>
+    <header class="card hero">
+      <div class="profile-wrap">
+        <label class="avatar" for="profileUpload">
+          <img id="profilePreview" alt="Profile preview" />
+          <span class="avatar-placeholder">Upload Profile</span>
+        </label>
+        <input id="profileUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+      </div>
+      <div class="identity">
+        <h1>Heartopia Daily Tracker</h1>
+        <label>
+          In-Game Name
+          <input id="playerName" type="text" value="Rainbow" />
+        </label>
+        <label>
+          UID
+          <input id="playerUid" type="text" placeholder="Add your UID later" />
+        </label>
+        <div class="actions-row">
+          <button id="editProfileBtn" class="secondary" type="button">Edit</button>
+          <button id="saveProfileBtn" type="button">Save</button>
+        </div>
+        <p class="sub">Daily reset: 7:00 AM Philippines Time (Asia/Manila)</p>
+        <p class="sub">Next reset in: <strong id="dailyResetCountdown">--:--:--</strong></p>
+      </div>
+    </header>
+
+    <section class="grid-two">
+      <article class="card">
+        <div class="card-head">
+          <h2>Daily Tasks</h2>
+          <div class="actions">
+            <button id="resetDailyBtn">Reset Daily</button>
+          </div>
+        </div>
+        <ul id="dailyList" class="checklist"></ul>
+        <div class="inline-form">
+          <input id="newDailyTask" type="text" placeholder="Add custom daily task" />
+          <button id="addDailyTaskBtn">Add Daily Task</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h2>Weekly Tasks (Resets Saturday)</h2>
+          <div class="actions">
+            <button id="resetWeeklyBtn">Reset Weekly</button>
+          </div>
+        </div>
+        <ul id="weeklyList" class="checklist"></ul>
+      </article>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <h2>Custom Tasks</h2>
+        <p class="sub">Custom tasks can be edited or deleted.</p>
+        <div class="inline-form">
+          <input id="newCustomTask" type="text" placeholder="Add one-off custom task" />
+          <button id="addCustomTaskBtn">Add Task</button>
+        </div>
+        <ul id="customList" class="checklist"></ul>
+      </article>
+
+      <article class="card">
+        <h2>Resource Timers</h2>
+        <div class="timer-block">
+          <h3>Rare Timber (2 Hours)</h3>
+          <p id="timberCountdown" class="timer">--:--:--</p>
+          <button id="timberCollectedBtn">Collected</button>
+        </div>
+        <div class="timer-block">
+          <h3>Truffle (15 Minutes)</h3>
+          <p id="truffleCountdown" class="timer">--:--:--</p>
+          <button id="truffleCollectedBtn">Collected</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Crops Planted Timers</h2>
+      <div class="preset-wrap" id="cropPresetWrap"></div>
+      <div class="inline-form">
+        <input id="customCropMins" type="number" min="1" placeholder="Custom minutes" />
+        <button id="startCustomCropBtn">Start Custom Crop Timer</button>
+      </div>
+      <ul id="cropTimersList" class="timer-list"></ul>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <h2>Manual Events</h2>
+        <div class="stack-form">
+          <input id="eventTitle" type="text" placeholder="Event name" />
+          <label>Start <input id="eventStart" type="datetime-local" /></label>
+          <label>End <input id="eventEnd" type="datetime-local" /></label>
+          <button id="addEventBtn">Add Event</button>
+        </div>
+        <ul id="eventsList" class="simple-list"></ul>
+      </article>
+
+      <article class="card">
+        <h2>Weather Schedule</h2>
+        <div class="stack-form">
+          <select id="weatherType">
+            <option>Rainy</option>
+            <option>Snowy</option>
+            <option>Sunny</option>
+            <option>Rainbow</option>
+            <option>Aurora</option>
+          </select>
+          <label>Happening on <input id="weatherTime" type="datetime-local" /></label>
+          <button id="addWeatherBtn">Add Weather</button>
+        </div>
+        <ul id="weatherList" class="simple-list"></ul>
+      </article>
+    </section>
+  </main>
+
+  <template id="checkItemTpl">
+    <li class="check-item">
+      <label>
+        <input type="checkbox" />
+        <span class="task-text"></span>
+      </label>
+      <div class="row-actions"></div>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
