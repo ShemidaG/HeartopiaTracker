@@ -9,18 +9,46 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
+      /* Light Theme (Cozy Heartopia Vibe) */
       --bg1: #86d7ff;
       --bg2: #ffe8f7;
-      --glass: rgba(255, 255, 255, 0.38);
-      --glass-strong: rgba(255, 255, 255, 0.58);
-      --stroke: rgba(255, 255, 255, 0.6);
+      --glass: rgba(255, 255, 255, 0.45);
+      --glass-strong: rgba(255, 255, 255, 0.65);
+      --glass-hover: rgba(255, 255, 255, 0.85);
+      --stroke: rgba(255, 255, 255, 0.8);
       --text: #164567;
+      --text-muted: #3a6889;
       --accent: #ff7aa8;
+      --accent-hover: #ff96bd;
       --accent-2: #22bfa6;
+      --card-shadow: 0 18px 40px rgba(10, 52, 86, 0.12);
+      --card-bg: linear-gradient(140deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.35));
+      --item-bg: rgba(255, 255, 255, 0.6);
+      --check-bg: rgba(255, 255, 255, 0.8);
+    }
+
+    body.dark-theme {
+      /* Dark Theme (Starry Night Vibe) */
+      --bg1: #1a1a2e;
+      --bg2: #16213e;
+      --glass: rgba(0, 0, 0, 0.35);
+      --glass-strong: rgba(0, 0, 0, 0.55);
+      --glass-hover: rgba(0, 0, 0, 0.75);
+      --stroke: rgba(255, 255, 255, 0.15);
+      --text: #e0f2fe;
+      --text-muted: #94a3b8;
+      --accent: #ff7aa8;
+      --accent-hover: #ff96bd;
+      --accent-2: #22bfa6;
+      --card-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+      --card-bg: linear-gradient(140deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.5));
+      --item-bg: rgba(30, 41, 59, 0.6);
+      --check-bg: rgba(15, 23, 42, 0.8);
     }
 
     * {
       box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
     body {
@@ -28,38 +56,66 @@
       min-height: 100vh;
       font-family: "Quicksand", sans-serif;
       color: var(--text);
-      background: radial-gradient(circle at 20% 15%, #fff8c8, transparent 28%),
-        radial-gradient(circle at 82% 25%, #ffd2ec, transparent 26%),
+      background-color: var(--bg2);
+      background-image: 
+        radial-gradient(circle at 20% 15%, var(--bg1), transparent 28%),
+        radial-gradient(circle at 82% 25%, var(--bg2), transparent 26%),
         linear-gradient(140deg, var(--bg1), var(--bg2));
+      background-attachment: fixed;
     }
 
     .bg-hearts {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.25;
+      opacity: 0.15;
       background-image:
-        radial-gradient(circle at 8% 12%, #ffffff 0 10px, transparent 11px),
-        radial-gradient(circle at 40% 70%, #ffffff 0 8px, transparent 9px),
-        radial-gradient(circle at 75% 32%, #ffffff 0 12px, transparent 13px),
-        radial-gradient(circle at 88% 82%, #ffffff 0 6px, transparent 7px);
+        radial-gradient(circle at 8% 12%, var(--text) 0 8px, transparent 9px),
+        radial-gradient(circle at 40% 70%, var(--text) 0 6px, transparent 7px),
+        radial-gradient(circle at 75% 32%, var(--text) 0 10px, transparent 11px),
+        radial-gradient(circle at 88% 82%, var(--text) 0 5px, transparent 6px);
+    }
+
+    /* Floating Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 2px solid var(--stroke);
+      box-shadow: var(--card-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(10deg);
     }
 
     .app {
       width: min(1200px, 94vw);
       margin: 16px auto 48px;
       display: grid;
-      gap: 16px;
+      gap: 20px;
+      position: relative;
     }
 
     .card {
       backdrop-filter: blur(18px) saturate(155%);
       -webkit-backdrop-filter: blur(18px) saturate(155%);
-      background: linear-gradient(140deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.24));
-      border: 1px solid rgba(255, 255, 255, 0.78);
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: 0 18px 40px rgba(10, 52, 86, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      background: var(--card-bg);
+      border: 1px solid var(--stroke);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--card-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
 
     .banner-full {
@@ -68,15 +124,14 @@
       border-radius: 0;
       border-left: none;
       border-right: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.7);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-      background: linear-gradient(140deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.18));
-      padding: 0 0 10px;
+      border-top: 1px solid var(--stroke);
+      border-bottom: 1px solid var(--stroke);
+      padding: 0 0 15px;
     }
 
     .banner-media {
       display: block;
-      height: 220px;
+      height: 250px;
       width: 100%;
       position: relative;
       overflow: hidden;
@@ -97,16 +152,22 @@
       place-items: center;
       font-family: "Baloo 2", cursive;
       letter-spacing: 0.03em;
-      background: linear-gradient(135deg, rgba(255, 122, 168, 0.25), rgba(34, 191, 166, 0.25));
+      font-size: 1.2rem;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      background: linear-gradient(135deg, rgba(255, 122, 168, 0.4), rgba(34, 191, 166, 0.4));
     }
 
     .banner-controls {
       width: min(1200px, 94vw);
-      margin: 10px auto 0;
+      margin: 15px auto 0;
+      font-weight: 600;
     }
 
     .banner-controls input[type="range"] {
-      width: 220px;
+      width: 250px;
+      margin-left: 10px;
+      accent-color: var(--accent);
     }
 
     #bannerUpload,
@@ -116,21 +177,29 @@
 
     .hero {
       display: grid;
-      grid-template-columns: 150px 1fr;
-      gap: 18px;
+      grid-template-columns: 160px 1fr;
+      gap: 24px;
+      align-items: center;
     }
 
     .avatar {
-      width: 140px;
-      height: 140px;
-      border-radius: 18px;
-      border: 2px dashed rgba(255, 255, 255, 0.82);
+      width: 160px;
+      height: 160px;
+      border-radius: 28px;
+      border: 4px dashed var(--stroke);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       background: var(--glass-strong);
       cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .avatar:hover {
+      transform: scale(1.05);
+      border-style: solid;
+      border-color: var(--accent);
     }
 
     .avatar img {
@@ -142,76 +211,107 @@
 
     .avatar-placeholder {
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 700;
+      padding: 10px;
     }
 
-    h1,
-    h2,
-    h3 {
+    h1, h2, h3 {
       margin: 0;
       font-family: "Baloo 2", cursive;
       letter-spacing: 0.02em;
     }
 
-    h1 {
-      font-size: 1.8rem;
-    }
-
-    h2 {
-      font-size: 1.35rem;
-    }
-
-    h3 {
-      font-size: 1.05rem;
-    }
+    h1 { font-size: 2.2rem; margin-bottom: 8px; }
+    h2 { font-size: 1.5rem; color: var(--accent); text-shadow: 0 1px 2px rgba(0,0,0,0.05);}
+    h3 { font-size: 1.15rem; }
 
     .identity {
       display: grid;
-      gap: 10px;
+      gap: 12px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .actions-row {
       display: flex;
-      gap: 8px;
+      gap: 10px;
+      margin-top: 8px;
     }
 
-    label,
-    .sub {
+    label, .sub {
       font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
     }
 
-    input,
-    select,
-    button,
-    details summary {
+    input, select, details summary {
       font: inherit;
-      border-radius: 10px;
-      border: 1px solid rgba(22, 69, 103, 0.2);
-      padding: 8px 10px;
+      border-radius: 12px;
+      border: 2px solid var(--stroke);
+      padding: 10px 14px;
+      background: var(--glass);
+      color: var(--text);
+      outline: none;
+    }
+    
+    input:focus, select:focus {
+      border-color: var(--accent);
+      background: var(--glass-hover);
+    }
+
+    /* Read-Only Display for Profile Fields */
+    .view-mode {
+      display: block;
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent);
+      background: var(--glass-strong);
+      border-radius: 12px;
+      border: 2px solid transparent;
+      min-height: 44px;
+      word-break: break-all;
     }
 
     button {
-      background: linear-gradient(135deg, var(--accent), #ff96bd);
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
       color: #fff;
       border: none;
       font-weight: 700;
+      font-family: "Quicksand", sans-serif;
+      padding: 10px 18px;
+      border-radius: 12px;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 122, 168, 0.25);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     button:hover {
-      filter: brightness(1.05);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 16px rgba(255, 122, 168, 0.4);
+    }
+
+    button:active {
+      transform: translateY(1px);
     }
 
     button:disabled {
-      opacity: 0.5;
+      background: var(--stroke);
+      color: var(--text-muted);
+      box-shadow: none;
       cursor: not-allowed;
+      transform: none;
     }
 
     .grid-two {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 20px;
     }
 
     .card-head {
@@ -219,145 +319,223 @@
       justify-content: space-between;
       gap: 10px;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px dashed var(--stroke);
     }
 
-    .checklist,
-    .simple-list,
-    .timer-list {
+    .checklist, .simple-list, .timer-list {
       list-style: none;
       padding: 0;
-      margin: 12px 0 0;
+      margin: 16px 0 0;
       display: grid;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .check-item,
-    .simple-item,
-    .timer-item {
+    .check-item, .simple-item, .timer-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.46);
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      border-radius: 12px;
-      padding: 8px 10px;
+      gap: 12px;
+      background: var(--item-bg);
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      padding: 12px 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    /* Custom Bubbly Checkbox */
+    .check-item label {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .check-item input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .checkmark {
+      height: 28px;
+      width: 28px;
+      background-color: var(--check-bg);
+      border: 3px solid var(--stroke);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .check-item:hover input ~ .checkmark {
+      border-color: var(--accent);
+    }
+
+    .check-item input:checked ~ .checkmark {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.15) rotate(5deg);
+    }
+
+    .check-item input:checked ~ .task-text {
+      text-decoration: line-through;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .checkmark::after {
+      content: "";
+      display: none;
+      width: 7px;
+      height: 14px;
+      border: solid #fff;
+      border-width: 0 4px 4px 0;
+      transform: rotate(45deg);
+      margin-bottom: 2px;
+    }
+
+    .check-item input:checked ~ .checkmark::after {
+      display: block;
     }
 
     .section-separator {
-      margin-top: 8px;
-      padding: 4px 2px 2px;
+      margin-top: 12px;
+      padding: 8px 4px 4px;
       font-family: "Baloo 2", cursive;
-      font-size: 0.95rem;
-      letter-spacing: 0.03em;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: #0f3f63;
-      border-bottom: 1px dashed rgba(15, 63, 99, 0.35);
+      color: var(--text-muted);
     }
 
     .completed-drawer {
-      margin-top: 8px;
+      margin-top: 12px;
     }
 
     .completed-drawer details {
-      background: rgba(255, 255, 255, 0.4);
-      border: 1px dashed rgba(15, 63, 99, 0.35);
-      border-radius: 12px;
-      padding: 8px;
+      background: var(--glass);
+      border: 2px dashed var(--stroke);
+      border-radius: 16px;
+      padding: 12px;
     }
 
     .completed-drawer summary {
       cursor: pointer;
       border: none;
-      padding: 0;
+      padding: 0 8px;
       font-weight: 700;
+      color: var(--accent-2);
+      font-size: 1.1rem;
     }
 
     .completed-list {
-      margin-top: 8px;
-      padding-top: 2px;
-    }
-
-    .check-item label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-top: 12px;
+      padding-top: 4px;
     }
 
     .row-actions {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
 
-    .row-actions .danger,
-    .danger {
-      background: #ea5477;
+    .row-actions .danger, .danger {
+      background: linear-gradient(135deg, #ff6b8b, #ea5477);
+      box-shadow: 0 4px 12px rgba(234, 84, 119, 0.25);
+    }
+    .row-actions .danger:hover, .danger:hover {
+      box-shadow: 0 6px 16px rgba(234, 84, 119, 0.4);
     }
 
     .secondary {
-      background: var(--accent-2);
+      background: linear-gradient(135deg, #38dfc6, var(--accent-2));
+      box-shadow: 0 4px 12px rgba(34, 191, 166, 0.25);
+    }
+    .secondary:hover {
+      box-shadow: 0 6px 16px rgba(34, 191, 166, 0.4);
     }
 
     .inline-form {
-      margin-top: 10px;
+      margin-top: 16px;
       display: flex;
-      gap: 8px;
+      gap: 12px;
     }
-
-    .inline-form input {
-      flex: 1;
-    }
+    .inline-form input { flex: 1; }
 
     .stack-form {
       display: grid;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 12px;
+      margin-top: 12px;
+      background: var(--glass);
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
     }
 
     .timer-block {
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.45);
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--glass-strong);
+      border: 1px solid var(--stroke);
+      text-align: center;
     }
 
     .timer {
-      margin: 6px 0 8px;
+      margin: 10px 0 12px;
       font-weight: 700;
-      font-size: 1.15rem;
+      font-size: 1.5rem;
+      font-family: "Baloo 2", cursive;
+      color: var(--accent-2);
     }
 
     .preset-wrap {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 10px;
+      gap: 10px;
+      margin-top: 16px;
     }
 
     .preset-wrap button {
       background: linear-gradient(135deg, #56c3ff, #42d9c2);
+      box-shadow: 0 4px 12px rgba(66, 217, 194, 0.25);
+      flex: 1;
+      min-width: 70px;
+    }
+
+    .weather-icon-text {
+      font-size: 1.2rem;
     }
 
     @media (max-width: 900px) {
-      .hero,
-      .grid-two {
-        grid-template-columns: 1fr;
-      }
-
-      .banner-media {
-        height: 150px;
-      }
+      .hero, .grid-two { grid-template-columns: 1fr; }
+      .banner-media { height: 160px; }
+      .hero { justify-items: center; text-align: center; }
+      .actions-row { justify-content: center; }
+      .inline-form { flex-direction: column; }
     }
   </style>
 </head>
 <body>
   <div class="bg-hearts"></div>
+  
+  <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle Theme">
+    🌙
+  </button>
+
   <main class="app">
     <section class="banner-full card">
       <label class="banner-media" for="bannerUpload">
         <img id="bannerPreview" alt="Banner preview" />
-        <span id="bannerPlaceholder" class="banner-placeholder">Upload banner (PNG/JPG/WEBP/GIF)</span>
+        <span id="bannerPlaceholder" class="banner-placeholder">Tap to upload banner (PNG/JPG/WEBP)</span>
       </label>
       <input id="bannerUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
       <div class="banner-controls">
@@ -372,26 +550,30 @@
       <div class="profile-wrap">
         <label class="avatar" for="profileUpload">
           <img id="profilePreview" alt="Profile preview" />
-          <span class="avatar-placeholder">Upload Profile</span>
+          <span class="avatar-placeholder" id="profilePlaceholder">Tap to upload Profile</span>
         </label>
         <input id="profileUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
       </div>
       <div class="identity">
-        <h1>Heartopia Daily Tracker</h1>
-        <label>
-          In-Game Name
-          <input id="playerName" type="text" value="Rainbow" />
-        </label>
-        <label>
-          UID
-          <input id="playerUid" type="text" placeholder="Add your UID later" />
-        </label>
-        <div class="actions-row">
-          <button id="editProfileBtn" class="secondary" type="button">Edit</button>
-          <button id="saveProfileBtn" type="button">Save</button>
+        <h1>Heartopia Tracker</h1>
+        
+        <div class="field-group">
+          <label>In-Game Name</label>
+          <span id="playerNameDisplay" class="view-mode"></span>
+          <input id="playerName" type="text" placeholder="Enter name" style="display: none;" />
         </div>
-        <p class="sub">Daily reset: 7:00 AM Philippines Time (Asia/Manila)</p>
-        <p class="sub">Next reset in: <strong id="dailyResetCountdown">--:--:--</strong></p>
+
+        <div class="field-group">
+          <label>UID</label>
+          <span id="playerUidDisplay" class="view-mode"></span>
+          <input id="playerUid" type="text" placeholder="Add your UID" style="display: none;" />
+        </div>
+
+        <div class="actions-row">
+          <button id="editProfileBtn" class="secondary" type="button">Edit Profile</button>
+          <button id="saveProfileBtn" type="button" style="display: none;">Save Changes</button>
+        </div>
+        <p class="sub">Daily reset: 7:00 AM PHT <br>Next reset in: <strong id="dailyResetCountdown" style="color: var(--accent);">--:--:--</strong></p>
       </div>
     </header>
 
@@ -405,18 +587,19 @@
         </div>
         <ul id="dailyList" class="checklist"></ul>
         <div class="inline-form">
-          <input id="newDailyTask" type="text" placeholder="Add custom daily task" />
-          <button id="addDailyTaskBtn">Add Daily Task</button>
+          <input id="newDailyTask" type="text" placeholder="Add custom daily task..." />
+          <button id="addDailyTaskBtn">Add</button>
         </div>
       </article>
 
       <article class="card">
         <div class="card-head">
-          <h2>Weekly Tasks (Resets Saturday)</h2>
+          <h2>Weekly Tasks</h2>
           <div class="actions">
             <button id="resetWeeklyBtn">Reset Weekly</button>
           </div>
         </div>
+        <p class="sub" style="margin-top:-10px; margin-bottom:10px;">Resets every Saturday</p>
         <ul id="weeklyList" class="checklist"></ul>
       </article>
     </section>
@@ -424,10 +607,10 @@
     <section class="grid-two">
       <article class="card">
         <h2>Custom Tasks</h2>
-        <p class="sub">Custom tasks can be edited or deleted.</p>
+        <p class="sub">One-off tasks that don't reset automatically.</p>
         <div class="inline-form">
-          <input id="newCustomTask" type="text" placeholder="Add one-off custom task" />
-          <button id="addCustomTaskBtn">Add Task</button>
+          <input id="newCustomTask" type="text" placeholder="Add custom task..." />
+          <button id="addCustomTaskBtn">Add</button>
         </div>
         <ul id="customList" class="checklist"></ul>
       </article>
@@ -435,31 +618,31 @@
       <article class="card">
         <h2>Resource Timers</h2>
         <div class="timer-block">
-          <h3>Rare Timber (2 Hours)</h3>
+          <h3>Rare Timber 🪵 (2 Hours)</h3>
           <p id="timberCountdown" class="timer">--:--:--</p>
-          <button id="timberCollectedBtn">Collected</button>
+          <button id="timberCollectedBtn">Just Collected!</button>
         </div>
         <div class="timer-block">
-          <h3>Truffle (15 Minutes)</h3>
+          <h3>Truffle 🍄 (15 Minutes)</h3>
           <p id="truffleCountdown" class="timer">--:--:--</p>
-          <button id="truffleCollectedBtn">Collected</button>
+          <button id="truffleCollectedBtn">Just Collected!</button>
         </div>
       </article>
     </section>
 
     <section class="card">
-      <h2>Crops Planted Timers</h2>
+      <h2>Crops Planted Timers 🌱</h2>
       <div class="preset-wrap" id="cropPresetWrap"></div>
       <div class="inline-form">
-        <input id="customCropMins" type="number" min="1" placeholder="Custom minutes" />
-        <button id="startCustomCropBtn">Start Custom Crop Timer</button>
+        <input id="customCropMins" type="number" min="1" placeholder="Or custom minutes..." />
+        <button id="startCustomCropBtn">Start Timer</button>
       </div>
       <ul id="cropTimersList" class="timer-list"></ul>
     </section>
 
     <section class="grid-two">
       <article class="card">
-        <h2>Manual Events</h2>
+        <h2>Manual Events 📅</h2>
         <div class="stack-form">
           <input id="eventTitle" type="text" placeholder="Event name" />
           <label>Start <input id="eventStart" type="datetime-local" /></label>
@@ -470,14 +653,14 @@
       </article>
 
       <article class="card">
-        <h2>Weather Schedule</h2>
+        <h2>Weather Schedule ⛅</h2>
         <div class="stack-form">
           <select id="weatherType">
-            <option>Rainy</option>
-            <option>Snowy</option>
-            <option>Sunny</option>
-            <option>Rainbow</option>
-            <option>Aurora</option>
+            <option value="Sunny">☀️ Sunny</option>
+            <option value="Rainy">🌧️ Rainy</option>
+            <option value="Snowy">❄️ Snowy</option>
+            <option value="Rainbow">🌈 Rainbow</option>
+            <option value="Aurora">🌌 Aurora</option>
           </select>
           <label>Happening on <input id="weatherTime" type="datetime-local" /></label>
           <button id="addWeatherBtn">Add Weather</button>
@@ -491,6 +674,7 @@
     <li class="check-item">
       <label>
         <input type="checkbox" />
+        <span class="checkmark"></span>
         <span class="task-text"></span>
       </label>
       <div class="row-actions"></div>
@@ -498,22 +682,32 @@
   </template>
 
   <script>
+    // --- Theme Logic ---
+    const themeBtn = document.getElementById('themeToggleBtn');
+    const isDark = localStorage.getItem('heartopia_theme') === 'dark';
+    if (isDark) {
+      document.body.classList.add('dark-theme');
+      themeBtn.textContent = '☀️';
+    }
+
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      const darkActive = document.body.classList.contains('dark-theme');
+      localStorage.setItem('heartopia_theme', darkActive ? 'dark' : 'light');
+      themeBtn.textContent = darkActive ? '☀️' : '🌙';
+    });
+
+
+    // --- Core Data ---
     const DAILY_TASK_SECTIONS = [
       {
         title: "Daily Tasks",
         tasks: [
-          "Like Home",
-          "Buy Ingredients",
-          "Buy Flowers",
-          "Check Kaching Puzzle collection",
-          "Check Bob's Furniture",
-          "Check Dorthee's Clothing Store",
-          "Submit Bird Info Cards to Bailey",
-          "Check Pets Section",
-          "Check Lab Section",
-          "Check Ticket Store Section",
-          "Check Events",
-          "Complete Daily Request"
+          "Like Home", "Buy Ingredients", "Buy Flowers",
+          "Check Kaching Puzzle collection", "Check Bob's Furniture",
+          "Check Dorthee's Clothing Store", "Submit Bird Info Cards to Bailey",
+          "Check Pets Section", "Check Lab Section",
+          "Check Ticket Store Section", "Check Events", "Complete Daily Request"
         ]
       },
       {
@@ -539,27 +733,29 @@
     );
 
     const WEEKLY_BASE_TASKS = [
-      "Complete Weekly Task/Events",
-      "Buy Fertilizer & Planting Tools",
-      "Buy Fishing Tools"
+      "Complete Weekly Task/Events", "Buy Fertilizer & Planting Tools", "Buy Fishing Tools"
     ];
 
     const CROP_PRESETS = [15, 60, 120, 240, 480, 720, 960];
     const TIMBER_MS = 2 * 60 * 60 * 1000;
     const TRUFFLE_MS = 15 * 60 * 1000;
-    const STORAGE_KEY = "heartopiaTrackerData_v2";
-    const MAX_STATIC_IMAGE_BYTES = 2 * 1024 * 1024;
-    const MAX_GIF_IMAGE_BYTES = 4 * 1024 * 1024;
+    const STORAGE_KEY = "heartopiaTrackerData_v3"; // bumped version for safe clean slate if needed
+    
+    // Limits
+    const MAX_GIF_IMAGE_BYTES = 4 * 1024 * 1024; // 4MB
 
     const els = {
       profileUpload: document.getElementById("profileUpload"),
       profilePreview: document.getElementById("profilePreview"),
+      profilePlaceholder: document.getElementById("profilePlaceholder"),
       bannerUpload: document.getElementById("bannerUpload"),
       bannerPreview: document.getElementById("bannerPreview"),
       bannerPlaceholder: document.getElementById("bannerPlaceholder"),
       bannerPosition: document.getElementById("bannerPosition"),
       playerName: document.getElementById("playerName"),
+      playerNameDisplay: document.getElementById("playerNameDisplay"),
       playerUid: document.getElementById("playerUid"),
+      playerUidDisplay: document.getElementById("playerUidDisplay"),
       editProfileBtn: document.getElementById("editProfileBtn"),
       saveProfileBtn: document.getElementById("saveProfileBtn"),
       dailyResetCountdown: document.getElementById("dailyResetCountdown"),
@@ -602,18 +798,10 @@
       },
       dailyTasks: DAILY_BASE_TASKS.map((task) => ({ id: uid(), ...task, checked: false })),
       weeklyTasks: WEEKLY_BASE_TASKS.map((text) => ({
-        id: uid(),
-        text,
-        category: "Weekly Tasks",
-        checked: false,
-        builtIn: true
+        id: uid(), text, category: "Weekly Tasks", checked: false, builtIn: true
       })),
       customTasks: [],
-      timers: {
-        timber: Date.now(),
-        truffle: Date.now(),
-        cropTimers: []
-      },
+      timers: { timber: Date.now(), truffle: Date.now(), cropTimers: [] },
       events: [],
       weather: [],
       lastDailyResetKey: "",
@@ -623,6 +811,11 @@
     let state = load();
     let profileEditMode = false;
     let hasShownStorageWarning = false;
+
+    // Map for Heartopia weather emojis
+    const weatherIcons = {
+      Sunny: "☀️", Rainy: "🌧️", Snowy: "❄️", Rainbow: "🌈", Aurora: "🌌"
+    };
 
     init();
 
@@ -634,8 +827,8 @@
     }
 
     function bind() {
-      els.profileUpload.addEventListener("change", onProfileUpload);
-      els.bannerUpload.addEventListener("change", onBannerUpload);
+      els.profileUpload.addEventListener("change", (e) => handleImageUpload(e, "profile", 400));
+      els.bannerUpload.addEventListener("change", (e) => handleImageUpload(e, "banner", 1400));
 
       els.bannerPosition.addEventListener("input", () => {
         state.profile.bannerPosition = Number(els.bannerPosition.value);
@@ -653,7 +846,7 @@
         state.profile.uid = els.playerUid.value.trim();
         profileEditMode = false;
         save();
-        renderProfileEditorState();
+        renderProfile(); // updates display text
       });
 
       els.addDailyTaskBtn.addEventListener("click", () => {
@@ -673,17 +866,13 @@
       });
 
       els.resetDailyBtn.addEventListener("click", () => {
-        state.dailyTasks.forEach((task) => {
-          task.checked = false;
-        });
+        state.dailyTasks.forEach(task => task.checked = false);
         state.lastDailyResetKey = getPhResetKey();
         saveAndRender();
       });
 
       els.resetWeeklyBtn.addEventListener("click", () => {
-        state.weeklyTasks.forEach((task) => {
-          task.checked = false;
-        });
+        state.weeklyTasks.forEach(task => task.checked = false);
         state.lastWeeklyResetKey = getPhWeekKey();
         saveAndRender();
       });
@@ -720,14 +909,13 @@
         const end = els.eventEnd.value;
         if (!title || !start || !end) return;
         state.events.push({ id: uid(), title, start, end });
-        els.eventTitle.value = "";
-        els.eventStart.value = "";
-        els.eventEnd.value = "";
+        els.eventTitle.value = ""; els.eventStart.value = ""; els.eventEnd.value = "";
         saveAndRender();
       });
 
       els.addWeatherBtn.addEventListener("click", () => {
-        const type = els.weatherType.value;
+        const typeSelect = els.weatherType;
+        const type = typeSelect.options[typeSelect.selectedIndex].value;
         const when = els.weatherTime.value;
         if (!when) return;
         state.weather.push({ id: uid(), type, when });
@@ -748,13 +936,19 @@
     }
 
     function renderProfile() {
+      // Sync Inputs
       els.playerName.value = state.profile.name || "Rainbow";
       els.playerUid.value = state.profile.uid || "";
+      
+      // Sync Displays
+      els.playerNameDisplay.textContent = state.profile.name || "Rainbow";
+      els.playerUidDisplay.textContent = state.profile.uid || "(No UID set)";
+      els.playerUidDisplay.style.color = state.profile.uid ? "var(--text)" : "var(--text-muted)";
 
       if (state.profile.imageDataUrl) {
         els.profilePreview.src = state.profile.imageDataUrl;
         els.profilePreview.style.display = "block";
-        document.querySelector(".avatar-placeholder").style.display = "none";
+        els.profilePlaceholder.style.display = "none";
       }
 
       if (state.profile.bannerDataUrl) {
@@ -769,15 +963,18 @@
     }
 
     function renderProfileEditorState() {
-      els.playerName.disabled = !profileEditMode;
-      els.playerUid.disabled = !profileEditMode;
-      els.saveProfileBtn.disabled = !profileEditMode;
-      els.editProfileBtn.disabled = profileEditMode;
+      els.playerName.style.display = profileEditMode ? "block" : "none";
+      els.playerNameDisplay.style.display = profileEditMode ? "none" : "block";
+      
+      els.playerUid.style.display = profileEditMode ? "block" : "none";
+      els.playerUidDisplay.style.display = profileEditMode ? "none" : "block";
+      
+      els.saveProfileBtn.style.display = profileEditMode ? "inline-block" : "none";
+      els.editProfileBtn.style.display = profileEditMode ? "none" : "inline-block";
     }
 
     function renderChecklist(container, items, kind) {
       container.innerHTML = "";
-
       const unchecked = items.filter((item) => !item.checked);
       const completed = items.filter((item) => item.checked);
 
@@ -795,7 +992,6 @@
         completedList.className = "checklist completed-list";
 
         renderChecklistSections(completedList, completed, kind);
-
         details.append(summary, completedList);
         drawer.appendChild(details);
         container.appendChild(drawer);
@@ -804,7 +1000,6 @@
 
     function renderChecklistSections(container, items, kind) {
       if (!items.length) return;
-
       const groups = groupTasks(items, kind);
       const order = getGroupOrder(kind, groups);
 
@@ -827,9 +1022,7 @@
       const map = new Map();
       items.forEach((item) => {
         const category = resolveCategory(item, kind);
-        if (!map.has(category)) {
-          map.set(category, []);
-        }
+        if (!map.has(category)) map.set(category, []);
         map.get(category).push(item);
       });
       return map;
@@ -883,13 +1076,11 @@
 
         const delBtn = document.createElement("button");
         delBtn.className = "danger";
-        delBtn.textContent = "Delete";
+        delBtn.innerHTML = "🗑️";
+        delBtn.title = "Delete";
         delBtn.addEventListener("click", () => {
-          if (kind === "custom") {
-            state.customTasks = state.customTasks.filter((t) => t.id !== item.id);
-          } else {
-            state.dailyTasks = state.dailyTasks.filter((t) => t.id !== item.id);
-          }
+          if (kind === "custom") state.customTasks = state.customTasks.filter((t) => t.id !== item.id);
+          else state.dailyTasks = state.dailyTasks.filter((t) => t.id !== item.id);
           saveAndRender();
         });
 
@@ -906,13 +1097,14 @@
         li.className = "timer-item";
 
         const left = document.createElement("div");
+        left.style.fontWeight = "600";
         left.textContent = `${timer.label}: ${formatMs(Math.max(0, timer.durationMs - (Date.now() - timer.startedAt)))}`;
 
         const actions = document.createElement("div");
         actions.className = "row-actions";
 
         const reset = document.createElement("button");
-        reset.textContent = "Collected";
+        reset.textContent = "Restart";
         reset.className = "secondary";
         reset.addEventListener("click", () => {
           timer.startedAt = Date.now();
@@ -920,8 +1112,9 @@
         });
 
         const del = document.createElement("button");
-        del.textContent = "Delete";
+        del.innerHTML = "🗑️";
         del.className = "danger";
+        del.title = "Delete";
         del.addEventListener("click", () => {
           state.timers.cropTimers = state.timers.cropTimers.filter((t) => t.id !== timer.id);
           saveAndRender();
@@ -938,35 +1131,20 @@
       state.events.forEach((event) => {
         const li = document.createElement("li");
         li.className = "simple-item";
-        li.innerHTML = `<span><strong>${escapeHtml(event.title)}</strong><br>${formatDate(event.start)} - ${formatDate(event.end)}</span>`;
+        li.innerHTML = `<span><strong style="color:var(--accent); font-size:1.1rem;">${escapeHtml(event.title)}</strong><br>${formatDate(event.start)} - ${formatDate(event.end)}</span>`;
 
         const actions = document.createElement("div");
         actions.className = "row-actions";
 
-        const edit = document.createElement("button");
-        edit.textContent = "Edit";
-        edit.className = "secondary";
-        edit.addEventListener("click", () => {
-          const title = prompt("Event title", event.title);
-          if (!title) return;
-          const start = prompt("Event start (YYYY-MM-DDTHH:mm)", event.start);
-          const end = prompt("Event end (YYYY-MM-DDTHH:mm)", event.end);
-          if (!start || !end) return;
-          event.title = title.trim();
-          event.start = start;
-          event.end = end;
-          saveAndRender();
-        });
-
         const del = document.createElement("button");
-        del.textContent = "Delete";
+        del.innerHTML = "🗑️";
         del.className = "danger";
         del.addEventListener("click", () => {
           state.events = state.events.filter((e) => e.id !== event.id);
           saveAndRender();
         });
 
-        actions.append(edit, del);
+        actions.append(del);
         li.append(actions);
         els.eventsList.appendChild(li);
       });
@@ -977,33 +1155,22 @@
       state.weather.forEach((weather) => {
         const li = document.createElement("li");
         li.className = "simple-item";
-        li.innerHTML = `<span><strong>${weather.type}</strong><br>${formatDate(weather.when)}</span>`;
+        
+        const icon = weatherIcons[weather.type] || "☁️";
+        li.innerHTML = `<span><strong class="weather-icon-text">${icon} ${weather.type}</strong><br>${formatDate(weather.when)}</span>`;
 
         const actions = document.createElement("div");
         actions.className = "row-actions";
 
-        const edit = document.createElement("button");
-        edit.textContent = "Edit";
-        edit.className = "secondary";
-        edit.addEventListener("click", () => {
-          const type = prompt("Weather (Rainy/Snowy/Sunny/Rainbow/Aurora)", weather.type);
-          const when = prompt("When (YYYY-MM-DDTHH:mm)", weather.when);
-          if (!type || !when) return;
-          if (!["Rainy", "Snowy", "Sunny", "Rainbow", "Aurora"].includes(type)) return;
-          weather.type = type;
-          weather.when = when;
-          saveAndRender();
-        });
-
         const del = document.createElement("button");
-        del.textContent = "Delete";
+        del.innerHTML = "🗑️";
         del.className = "danger";
         del.addEventListener("click", () => {
           state.weather = state.weather.filter((w) => w.id !== weather.id);
           saveAndRender();
         });
 
-        actions.append(edit, del);
+        actions.append(del);
         li.append(actions);
         els.weatherList.appendChild(li);
       });
@@ -1015,8 +1182,8 @@
       const timberRemaining = TIMBER_MS - (Date.now() - state.timers.timber);
       const truffleRemaining = TRUFFLE_MS - (Date.now() - state.timers.truffle);
 
-      els.timberCountdown.textContent = timberRemaining <= 0 ? "Ready now" : formatMs(timberRemaining);
-      els.truffleCountdown.textContent = truffleRemaining <= 0 ? "Ready now" : formatMs(truffleRemaining);
+      els.timberCountdown.textContent = timberRemaining <= 0 ? "Ready now! ✨" : formatMs(timberRemaining);
+      els.truffleCountdown.textContent = truffleRemaining <= 0 ? "Ready now! ✨" : formatMs(truffleRemaining);
       els.dailyResetCountdown.textContent = formatMs(getMsUntilNextPhReset());
 
       const rows = els.cropTimersList.querySelectorAll(".timer-item");
@@ -1024,18 +1191,15 @@
         const timer = state.timers.cropTimers[index];
         if (!timer) return;
         const remaining = timer.durationMs - (Date.now() - timer.startedAt);
-        row.firstChild.textContent = `${timer.label}: ${remaining <= 0 ? "Ready now" : formatMs(remaining)}`;
+        row.firstChild.textContent = `${timer.label}: ${remaining <= 0 ? "Ready now! ✨" : formatMs(remaining)}`;
       });
     }
 
     function addCropTimer(minutes) {
       const mins = Math.round(minutes);
-      const label = mins >= 60 ? `${mins / 60} hour crop` : `${mins} min crop`;
+      const label = mins >= 60 ? `${mins / 60}h crop` : `${mins}m crop`;
       state.timers.cropTimers.push({
-        id: uid(),
-        label,
-        durationMs: mins * 60 * 1000,
-        startedAt: Date.now()
+        id: uid(), label, durationMs: mins * 60 * 1000, startedAt: Date.now()
       });
       saveAndRender();
     }
@@ -1043,17 +1207,13 @@
     function ensureResets() {
       const currentDailyKey = getPhResetKey();
       if (state.lastDailyResetKey !== currentDailyKey) {
-        state.dailyTasks.forEach((t) => {
-          t.checked = false;
-        });
+        state.dailyTasks.forEach((t) => t.checked = false);
         state.lastDailyResetKey = currentDailyKey;
       }
 
       const currentWeekKey = getPhWeekKey();
       if (state.lastWeeklyResetKey !== currentWeekKey) {
-        state.weeklyTasks.forEach((t) => {
-          t.checked = false;
-        });
+        state.weeklyTasks.forEach((t) => t.checked = false);
         state.lastWeeklyResetKey = currentWeekKey;
       }
 
@@ -1063,28 +1223,14 @@
     function getPhParts() {
       const now = new Date();
       const fmt = new Intl.DateTimeFormat("en-US", {
-        timeZone: "Asia/Manila",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-        weekday: "short"
+        timeZone: "Asia/Manila", year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", hour12: false, weekday: "short"
       });
-
       const parts = {};
-      fmt.formatToParts(now).forEach((p) => {
-        if (p.type !== "literal") parts[p.type] = p.value;
-      });
-
+      fmt.formatToParts(now).forEach((p) => { if (p.type !== "literal") parts[p.type] = p.value; });
       return {
-        year: Number(parts.year),
-        month: Number(parts.month),
-        day: Number(parts.day),
-        hour: Number(parts.hour),
-        minute: Number(parts.minute),
-        weekday: parts.weekday
+        year: Number(parts.year), month: Number(parts.month), day: Number(parts.day),
+        hour: Number(parts.hour), minute: Number(parts.minute), weekday: parts.weekday
       };
     }
 
@@ -1103,12 +1249,8 @@
       const ph = getPhParts();
       const dayIdx = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(ph.weekday);
       const anchor = new Date(Date.UTC(ph.year, ph.month - 1, ph.day));
-
       let daysSinceReset = (dayIdx + 1) % 7;
-      if (dayIdx === 6 && ph.hour < 7) {
-        daysSinceReset = 7;
-      }
-
+      if (dayIdx === 6 && ph.hour < 7) daysSinceReset = 7;
       anchor.setUTCDate(anchor.getUTCDate() - daysSinceReset);
       return `${anchor.getUTCFullYear()}-W-${pad2(anchor.getUTCMonth() + 1)}-${pad2(anchor.getUTCDate())}`;
     }
@@ -1120,29 +1262,52 @@
       return Math.max(0, targetMs - Date.now());
     }
 
-    function onProfileUpload(e) {
+    // --- Image Resizing for local storage limit fix ---
+    function handleImageUpload(e, type, maxDim) {
       const file = e.target.files[0];
-      if (!validateUploadFile(file, "profile picture")) return;
+      if (!file || !file.type.startsWith("image/")) return;
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        state.profile.imageDataUrl = reader.result;
-        saveAndRender();
-      };
-      reader.readAsDataURL(file);
-      e.target.value = "";
-    }
-
-    function onBannerUpload(e) {
-      const file = e.target.files[0];
-      if (!validateUploadFile(file, "banner")) return;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        state.profile.bannerDataUrl = reader.result;
-        saveAndRender();
-      };
-      reader.readAsDataURL(file);
+      if (file.type === "image/gif") {
+        if (file.size > MAX_GIF_IMAGE_BYTES) {
+          alert(`Please use a smaller GIF (Max 4MB).`);
+          e.target.value = "";
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          if(type === 'profile') state.profile.imageDataUrl = reader.result;
+          if(type === 'banner') state.profile.bannerDataUrl = reader.result;
+          saveAndRender();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // Automatically resize large images so localStorage doesn't crash
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const img = new Image();
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            if (width > maxDim || height > maxDim) {
+              const ratio = Math.min(maxDim / width, maxDim / height);
+              width = width * ratio;
+              height = height * ratio;
+            }
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            const compressedData = canvas.toDataURL("image/jpeg", 0.85);
+            if(type === 'profile') state.profile.imageDataUrl = compressedData;
+            if(type === 'banner') state.profile.bannerDataUrl = compressedData;
+            saveAndRender();
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
       e.target.value = "";
     }
 
@@ -1162,7 +1327,7 @@
         return true;
       } catch (error) {
         if (!hasShownStorageWarning) {
-          alert("Upload failed to save. The image/GIF is likely too large for browser storage. Try a smaller file.");
+          alert("Upload failed to save! Even with compression, the image is too large for browser storage. Please try a different image.");
           hasShownStorageWarning = true;
         }
         console.error(error);
@@ -1172,7 +1337,7 @@
 
     function load() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("heartopiaTrackerData_v2");
         if (!raw) return structuredClone(defaultState);
         const data = JSON.parse(raw);
         return mergeWithDefault(data);
@@ -1184,34 +1349,17 @@
     function mergeWithDefault(data) {
       const merged = structuredClone(defaultState);
       return {
-        ...merged,
-        ...data,
+        ...merged, ...data,
         profile: { ...merged.profile, ...(data.profile || {}) },
-        timers: {
-          ...merged.timers,
-          ...(data.timers || {}),
-          cropTimers: data.timers?.cropTimers || []
-        },
-        dailyTasks:
-          Array.isArray(data.dailyTasks) && data.dailyTasks.length
-            ? normalizeDailyTasks(data.dailyTasks)
-            : merged.dailyTasks,
-        weeklyTasks:
-          Array.isArray(data.weeklyTasks) && data.weeklyTasks.length
-            ? data.weeklyTasks.map((task) => ({ ...task, category: task.category || "Weekly Tasks" }))
-            : merged.weeklyTasks,
-        customTasks:
-          Array.isArray(data.customTasks) && data.customTasks.length
-            ? data.customTasks.map((task) => ({ ...task, category: task.category || "Custom Tasks" }))
-            : [],
-        events: data.events || [],
-        weather: data.weather || []
+        timers: { ...merged.timers, ...(data.timers || {}), cropTimers: data.timers?.cropTimers || [] },
+        dailyTasks: Array.isArray(data.dailyTasks) && data.dailyTasks.length ? normalizeDailyTasks(data.dailyTasks) : merged.dailyTasks,
+        weeklyTasks: Array.isArray(data.weeklyTasks) && data.weeklyTasks.length ? data.weeklyTasks.map(t => ({...t, category: t.category || "Weekly Tasks"})) : merged.weeklyTasks,
+        customTasks: Array.isArray(data.customTasks) && data.customTasks.length ? data.customTasks.map(t => ({...t, category: t.category || "Custom Tasks"})) : [],
+        events: data.events || [], weather: data.weather || []
       };
     }
 
-    function uid() {
-      return Math.random().toString(36).slice(2, 10);
-    }
+    function uid() { return Math.random().toString(36).slice(2, 10); }
 
     function formatMs(ms) {
       const totalSec = Math.floor(ms / 1000);
@@ -1221,54 +1369,28 @@
       return `${pad2(h)}:${pad2(m)}:${pad2(s)}`;
     }
 
-    function pad2(n) {
-      return String(n).padStart(2, "0");
-    }
+    function pad2(n) { return String(n).padStart(2, "0"); }
 
     function formatDate(value) {
       const d = new Date(value);
       if (Number.isNaN(d.getTime())) return value;
-      return d.toLocaleString();
+      return d.toLocaleString([], {weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit'});
     }
 
     function escapeHtml(str) {
-      return str
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function validateUploadFile(file, label) {
-      if (!file || !file.type.startsWith("image/")) return false;
-
-      const isGif = file.type === "image/gif";
-      const maxBytes = isGif ? MAX_GIF_IMAGE_BYTES : MAX_STATIC_IMAGE_BYTES;
-
-      if (file.size > maxBytes) {
-        const limitMb = (maxBytes / (1024 * 1024)).toFixed(0);
-        alert(`Please use a smaller ${label}. Max size is ${limitMb}MB (${isGif ? "GIF" : "image"}).`);
-        return false;
-      }
-
-      return true;
+      return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
     }
 
     function normalizeDailyTasks(tasks) {
       const builtInByText = new Map();
       DAILY_BASE_TASKS.forEach((task) => {
-        if (!builtInByText.has(task.text)) {
-          builtInByText.set(task.text, []);
-        }
+        if (!builtInByText.has(task.text)) builtInByText.set(task.text, []);
         builtInByText.get(task.text).push(task.category);
       });
 
       return tasks.map((task) => {
         if (task.category) return task;
-        if (task.text === "SMURFS: Like Home") {
-          return { ...task, text: "Like Home", category: "Smurfs" };
-        }
+        if (task.text === "SMURFS: Like Home") return { ...task, text: "Like Home", category: "Smurfs" };
         const categories = builtInByText.get(task.text);
         const category = task.builtIn && categories ? categories[0] : "Custom Daily";
         return { ...task, category };
